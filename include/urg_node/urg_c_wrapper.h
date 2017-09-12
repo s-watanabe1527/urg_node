@@ -61,6 +61,14 @@ namespace urg_node
 
     bool isStarted() const;
 
+    void getDistanceMinMax(int32_t &dist_min, int32_t &dist_max);
+
+    void getStepMinMax(int32_t &step_min, int32_t &step_max, int32_t &front_step);
+
+    int getAngleResolution();
+
+    long getScanUsec() const;
+
     double getRangeMin() const;
 
     double getRangeMax() const;
@@ -86,6 +94,8 @@ namespace urg_node
     std::string getSerialPort() const;
 
     int getSerialBaud() const;
+
+    std::string getSerialID();
 
     std::string getVendorName();
 

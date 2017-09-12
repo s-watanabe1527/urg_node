@@ -1,13 +1,26 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(urg_node)
 
+file(GLOB service_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/srv srv/*.srv)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs urg_c rosconsole nodelet dynamic_reconfigure tf laser_proc diagnostic_updater)
+find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs rosconsole nodelet dynamic_reconfigure tf laser_proc diagnostic_updater)
 
 # Dynamic reconfigure support
 generate_dynamic_reconfigure_options(cfg/URG.cfg)
+
+## Generate services in the 'srv' folder
+add_service_files(
+  FILES
+  ${service_files}
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ###################################################
 ## Declare things to be passed to other projects ##
@@ -19,7 +32,7 @@ generate_dynamic_reconfigure_options(cfg/URG.cfg)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES urg_c_wrapper
-  CATKIN_DEPENDS roscpp sensor_msgs urg_c rosconsole nodelet dynamic_reconfigure laser_proc
+  CATKIN_DEPENDS roscpp sensor_msgs rosconsole nodelet dynamic_reconfigure laser_proc
   DEPENDS
 )
 
@@ -28,11 +41,11 @@ catkin_package(
 ###########
 
 ## Specify additional locations of header files
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(/usr/local/include include ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(urg_c_wrapper src/urg_c_wrapper.cpp)
-target_link_libraries(urg_c_wrapper ${catkin_LIBRARIES})
+target_link_libraries(urg_c_wrapper ${catkin_LIBRARIES} urg_c)
 
 ## Declare a cpp executable
 add_executable(urg_node src/urg_node.cpp)

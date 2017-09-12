@@ -1,0 +1,12 @@
+---
+string model
+string firmware_version
+string status
+string serial
+int32 min_distance
+int32 max_distance
+int32 anglar_resolution
+int32 min_step
+int32 max_step
+int32 front_step
+int32 scan_usec
